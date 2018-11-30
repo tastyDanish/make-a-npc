@@ -11,10 +11,14 @@ _stat_array = [15, 14, 13, 12, 10, 8]
 _human_stats = {'STR': 10, 'CON': 10, 'DEX': 10, 'INT': 10, 'WIS': 10, 'CHA': 10}
 _human_bonus = {'STR': 1}
 _human_back = {'Soldier': 10, 'Acolyte': 10, 'Hermit': 10, 'Sage': 10}
+_human_class = {'Barbarian': 10, 'Bard': 10,  'Cleric': 10, 'Druid': 10, 'Fighter': 10, 'Monk': 10, 'Paladin': 10,
+                'Ranger': 10, 'Rogue': 10, 'Sorcerer': 10, 'Warlock': 10, 'Wizard': 10}
 
 _elf_stats = {'STR': 5, 'CON': 5, 'DEX': 20, 'INT': 20, 'WIS': 10, 'CHA': 10}
 _elf_bonus = {'DEX': 2, 'INT': 1}
 _elf_back = {'Soldier': 5, 'Acolyte': 10, 'Hermit': 15, 'Sage': 20, 'Criminal': 10, 'Artisan': 10}
+_elf_class = {'Barbarian': 5, 'Bard': 5,  'Cleric': 10, 'Druid': 15, 'Fighter': 5, 'Monk': 5, 'Paladin': 10,
+                'Ranger': 20, 'Rogue': 15, 'Sorcerer': 10, 'Warlock': 5, 'Wizard': 20}
 
 _race_stats = {'Elf': _elf_stats, 'Human': _human_stats}
 _race_bonus = {'Elf': _elf_bonus, 'Human': _human_bonus}
@@ -26,6 +30,8 @@ _stat_backs = {'STR': ['Soldier', 'Acolyte'],
                'WIS': ['Acolyte', 'Sage'],
                'CHA': ['Criminal', 'Artisan'],
                'CON': ['Soldier', 'Hermit']}
+
+
 
 class NPC:
     """
@@ -111,7 +117,7 @@ class NPC:
         return random_weight.roll_with_weights(back_dict)
 
     def generate_class(self):
-        return 123
+
 
     def generate_skills(self):
         return 123
