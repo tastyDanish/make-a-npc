@@ -31,6 +31,19 @@ _stat_backs = {'STR': ['Soldier', 'Acolyte'],
                'CHA': ['Criminal', 'Artisan'],
                'CON': ['Soldier', 'Hermit']}
 
+_stat_class = {'STR': ['Fighter', 'Paladin', 'Barbarian'],
+               'DEX': ['Rogue', 'Ranger', 'Monk'],
+               'INT': ['Wizard'],
+               'WIS': ['Cleric', 'Druid'],
+               'CHA': ['Warlock', 'Sorcerer', 'Bard'],
+               'CON': ['Fighter', 'Barbarian']}
+
+_back_class = {'Soldier': ['Fighter', 'Barbarian'],
+               'Acolyte': ['Cleric', 'Paladin', 'Monk'],
+               'Hermit': ['Ranger', 'Ranger', 'Druid'],
+               'Sage': ['Wizard'],
+               'Criminal': ['Rogue', 'Warlock'],
+               'Artisan': ['Bard']}
 
 
 class NPC:
