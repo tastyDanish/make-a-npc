@@ -14,11 +14,18 @@ _human_back = {'Soldier': 10, 'Acolyte': 10, 'Hermit': 10, 'Sage': 10}
 
 _elf_stats = {'STR': 5, 'CON': 5, 'DEX': 20, 'INT': 20, 'WIS': 10, 'CHA': 10}
 _elf_bonus = {'DEX': 2, 'INT': 1}
-_elf_back = {'Soldier': 10, 'Acolyte': 10, 'Hermit': 10, 'Sage': 10}
+_elf_back = {'Soldier': 5, 'Acolyte': 10, 'Hermit': 15, 'Sage': 20, 'Criminal': 10, 'Artisan': 10}
 
 _race_stats = {'Elf': _elf_stats, 'Human': _human_stats}
 _race_bonus = {'Elf': _elf_bonus, 'Human': _human_bonus}
 _race_back = {'Elf': _elf_back, 'Human': _human_back}
+
+_stat_backs = {'STR': ['Soldier', 'Acolyte'],
+               'DEX': ['Hermit', 'Criminal'],
+               'INT': ['Sage', 'Artisan'],
+               'WIS': ['Acolyte', 'Sage'],
+               'CHA': ['Criminal', 'Artisan'],
+               'CON': ['Soldier', 'Hermit']}
 
 class NPC:
     """
@@ -81,7 +88,27 @@ class NPC:
         return my_stats
 
     def generate_background(self):
-        return 123
+        """
+        Generates a background based on the race and stats of the NPC
+        :return: the background
+        :rtype: str
+        """
+        high_stat = self.get_highest_stat()
+        low_stat = self.get_lowest_stat()
+        back_dict = _race_back[self.race].copy()
+        for h_stat in high_stat:
+            if h_stat in _stat_backs.keys():
+                for back in _stat_backs[h_stat]:
+                    back_dict[back] = back_dict[back] + 10
+
+        for l_stat in low_stat:
+            if l_stat in _stat_backs.keys():
+                for back in _stat_backs[l_stat]:
+                    back_dict[back] = back_dict[back] - 10
+                    if back_dict[back] < 0:
+                        back_dict[back] = 0
+
+        return random_weight.roll_with_weights(back_dict)
 
     def generate_class(self):
         return 123
@@ -93,5 +120,4 @@ class NPC:
 if __name__ == '__main__':
     my_npc = NPC('Gringle', 'Elf')
     print(my_npc.stats)
-    print(my_npc.get_highest_stat())
-    print(my_npc.get_lowest_stat())
+    print(my_npc.background)
