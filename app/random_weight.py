@@ -41,3 +41,18 @@ def choose_one(choices):
     """
     choice = int(random.random() * len(choices))
     return choices[choice]
+
+
+def choose_one_with_removal(choices, remove):
+    """
+    choose a thing from a list of items, but allows you to remove from the list of choices with a list of options
+    :param choices: the choices
+    :type choices: list
+    :param remove: the items to remove
+    :type remove: list
+    :return: the choice
+    """
+    if len(remove) < 1:
+        return choose_one(choices)
+    new_list = [x for x in choices if x not in remove]
+    return choose_one(new_list)

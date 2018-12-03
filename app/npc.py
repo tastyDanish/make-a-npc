@@ -45,6 +45,38 @@ _back_class = {'Soldier': ['Fighter', 'Barbarian'],
                'Criminal': ['Rogue', 'Warlock', 'Bard'],
                'Artisan': ['Bard']}
 
+_back_skills = {'Soldier': ['Athletics', 'Intimidation'],
+                'Acolyte': ['Insight', 'Religion'],
+                'Hermit': ['Medicine', 'Religion'],
+                'Sage': ['Arcana', 'History'],
+                'Criminal': ['Deception', 'Stealth'],
+                'Artisan': ['Insight', 'Persuasion']}
+
+_all_skills = ['Athletics', 'Acrobatics', 'Sleight Of Hand', 'Stealth', 'Arcana', 'History', 'Investigation',
+               'Nature', 'Religion', 'Animal Handling', 'Insight', 'Medicine', 'Perception', 'Survival', 'Deception',
+               'Intimidation', 'Performance', 'Persuasion']
+
+_class_skills = {'Barbarian': ['Animal Handling', 'Athletics', 'Intimidation', 'Nature', 'Perception', 'Survival'],
+                 'Bard': _all_skills,
+                 # gets 3
+                 'Cleric': ['History', 'Insight', 'Medicine', 'Persuasion', 'Religion'],
+                 'Druid': ['Arcana', 'Animal Handling', 'Insight', 'Medicine', 'Nature', 'Perception', 'Religion',
+                           'Survival'],
+                 'Fighter': ['Acrobatics', 'Animal Handling', 'Athletics', 'History', 'Insight', 'Intimidation',
+                             'Perception', 'Survival'],
+                 'Monk': ['Acrobatics', 'Athletics', 'History', 'Insight', 'Religion', 'Stealth'],
+                 'Paladin': ['Athletics', 'Insight', 'Intimidation', 'Medicine', 'Persuasion', 'Religion'],
+                 'Ranger': ['Animal Handling', 'Athletics', 'Insight', 'Investigation', 'Nature', 'Perception',
+                            'Stealth', 'Survival'],
+                 # gets 3
+                 'Rogue': ['Acrobatics', 'Athletics', 'Deception', 'Insight', 'Intimidation', 'Investigation',
+                           'Perception', 'Performance', 'Persuasion', 'Sleight Of Hand', 'Stealth'],
+                 # gets 4
+                 'Sorcerer': ['Arcana', 'Deception', 'Insight', 'Intimidation', 'Persuasion', 'Religion'],
+                 'Warlock': ['Arcana', 'Deception', 'History', 'Intimidation', 'Investigation', 'Nature', 'Religion'],
+                 'Wizard': ['Arcana', 'History', 'Insight', 'Investigation', 'Medicine', 'Religion']}
+
+
 
 class NPC:
     """
@@ -178,11 +210,29 @@ class NPC:
         return random_weight.roll_with_weights(class_dict)
 
     def generate_skills(self):
-        return 123
+        """
+        Generates the skills randomly
+        :return:
+        :rtype:
+        """
+        skills = []
+        skills = skills + _back_skills[self.background]
+        if self.pc_class == 'Rogue':
+            skill_count = 4
+        elif self.pc_class == 'Ranger' or self.pc_class == 'Bard':
+            skill_count = 3
+        else:
+            skill_count = 2
+        for i in range(skill_count):
+            choice = random_weight.choose_one_with_removal(_class_skills[self.pc_class], skills)
+            skills.append(choice)
+
+        return skills
 
 
 if __name__ == '__main__':
-    my_npc = NPC('Gringle', 'Elf', pc_class='Wizard', top_stat='INT')
+    my_npc = NPC('Gringle', 'Human', pc_class='Bard', top_stat='CHA')
     print(my_npc.stats)
     print(my_npc.background)
     print(my_npc.pc_class)
+    print(my_npc.skills)
