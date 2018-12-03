@@ -8,6 +8,7 @@ from app import random_weight
 _base_stats = {'STR': 10, 'CON': 10, 'DEX': 10, 'INT': 10, 'WIS': 10, 'CHA': 10}
 _stat_array = [15, 14, 13, 12, 10, 8]
 
+# TODO: PUT ALL OF THIS IN A DATABASE
 _human_stats = {'STR': 10, 'CON': 10, 'DEX': 10, 'INT': 10, 'WIS': 10, 'CHA': 10}
 _human_back = {'Soldier': 10, 'Acolyte': 10, 'Hermit': 10, 'Sage': 10, 'Criminal': 10, 'Artisan': 10}
 _human_class = {'Barbarian': 5, 'Bard': 5,  'Cleric': 5, 'Druid': 5, 'Fighter': 5, 'Monk': 5, 'Paladin': 5,
@@ -52,13 +53,13 @@ _back_skills = {'Soldier': ['Athletics', 'Intimidation'],
                 'Criminal': ['Deception', 'Stealth'],
                 'Artisan': ['Insight', 'Persuasion']}
 
+# TODO: ADD THE STAT BONUS IN HERE
 _all_skills = ['Athletics', 'Acrobatics', 'Sleight Of Hand', 'Stealth', 'Arcana', 'History', 'Investigation',
                'Nature', 'Religion', 'Animal Handling', 'Insight', 'Medicine', 'Perception', 'Survival', 'Deception',
                'Intimidation', 'Performance', 'Persuasion']
 
 _class_skills = {'Barbarian': ['Animal Handling', 'Athletics', 'Intimidation', 'Nature', 'Perception', 'Survival'],
                  'Bard': _all_skills,
-                 # gets 3
                  'Cleric': ['History', 'Insight', 'Medicine', 'Persuasion', 'Religion'],
                  'Druid': ['Arcana', 'Animal Handling', 'Insight', 'Medicine', 'Nature', 'Perception', 'Religion',
                            'Survival'],
@@ -68,14 +69,11 @@ _class_skills = {'Barbarian': ['Animal Handling', 'Athletics', 'Intimidation', '
                  'Paladin': ['Athletics', 'Insight', 'Intimidation', 'Medicine', 'Persuasion', 'Religion'],
                  'Ranger': ['Animal Handling', 'Athletics', 'Insight', 'Investigation', 'Nature', 'Perception',
                             'Stealth', 'Survival'],
-                 # gets 3
                  'Rogue': ['Acrobatics', 'Athletics', 'Deception', 'Insight', 'Intimidation', 'Investigation',
                            'Perception', 'Performance', 'Persuasion', 'Sleight Of Hand', 'Stealth'],
-                 # gets 4
                  'Sorcerer': ['Arcana', 'Deception', 'Insight', 'Intimidation', 'Persuasion', 'Religion'],
                  'Warlock': ['Arcana', 'Deception', 'History', 'Intimidation', 'Investigation', 'Nature', 'Religion'],
                  'Wizard': ['Arcana', 'History', 'Insight', 'Investigation', 'Medicine', 'Religion']}
-
 
 
 class NPC:
@@ -83,6 +81,7 @@ class NPC:
     Creates an NPC following the PC building rules
     """
     def __init__(self, name, race, background=None, pc_class=None, top_stat=None):
+        # TODO: AUTO GENERATE A NAME IF NONE IS GIVEN
         self.name = name
         self.race = race
         self.stats = self.generate_stats(top_stat)
@@ -231,7 +230,7 @@ class NPC:
 
 
 if __name__ == '__main__':
-    my_npc = NPC('Gringle', 'Human', pc_class='Bard', top_stat='CHA')
+    my_npc = NPC('Gringle', 'Elf', pc_class='Wizard', top_stat='INT')
     print(my_npc.stats)
     print(my_npc.background)
     print(my_npc.pc_class)
