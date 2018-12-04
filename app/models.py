@@ -2,26 +2,7 @@
 Author: Peter Lansdaal
 Date: 2018-12-03
 """
-import json
-import sqlalchemy
-from sqlalchemy.types import TypeDecorator
 from app import db
-
-_size = 256
-
-
-class TextPickleType(TypeDecorator):
-    impl = sqlalchemy.Text(_size)
-
-    def process_bind_params(self, value, dialect):
-        if value is not None:
-            value = json.dumps(value)
-        return value
-
-    def process_result_value(self, value, dialect):
-        if value is not None:
-            value = json.loads(value)
-        return value
 
 
 class RaceStats(db.Model):
@@ -32,7 +13,8 @@ class RaceStats(db.Model):
     race_name = db.Column(db.String(20), nullable=False)
     race_weight = db.Column(db.Integer, nullable=False)
     race_monster = db.Column(db.Boolean, nullable=False)
-    race_stat_bonus = db.Column()
+    stat_bonus_2 = db.Column(db.Integer)
+    stat_bonus_1 = db.Column(db.Integer)
     str_weight = db.Column(db.Integer, nullable=False)
     con_weight = db.Column(db.Integer, nullable=False)
     dex_weight = db.Column(db.Integer, nullable=False)
@@ -49,3 +31,35 @@ class BackStats(db.Model):
     race_id = db.Column(db.Integer, db.ForeignKey('RaceStats.race_id'), nullable=False)
     back_name = db.Column(db.String(50), nullable=False)
     back_weight = db.Column(db.Integer, nullable=False)
+    back_stat = db.Column(db.String(3), nullable=False)
+
+
+class ClassStats(db.Model):
+    """
+    A table for pc class information
+    Note: pc class is sort of an ambiguous name. It is not limited to pc classes, this model can be expanded for any
+    number of classes for monsters and NPCs
+    """
+    class_id = db.Column(db.Integer, primary_key=True)
+    race_id = db.Column(db.Integer, db.ForeignKey('RaceStats.race_id'), nullable=False)
+    back_id = db.Column(db.Integer, db.ForeignKey('BackStats.back_id'), nullable=False)
+    preferred_stat = db.Column(db.String(3))
+    preferred_stat_2 = db.Column(db.String(3))
+
+
+class Skills(db.Model):
+    """
+    A table for all of the skills
+    """
+    skill_id = db.Column(db.Integer, primary_key=True)
+    skill_name = db.Column(db.String(56), nullable=False)
+    skill_stat = db.Column(db.String(3), nullable=False)
+
+
+class ClassSkills(db.Model):
+    """
+    Intersection table for class and skills
+    """
+    class_skill_id = db.Column(db.Integer, primary_key=True)
+    skill_id = db.Column(db.Integer, db.ForeignKey('Skill.skill_id'), nullable=False)
+    class_id = db.Column(db.Integer, db.ForeignKey('ClassStats.class_id'), nullable=False)
