@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
-from app.models import User
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, IntegerField, SelectField, \
+    SelectMultipleField
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, NumberRange
+from app.user_models import User
 
 
 class LoginForm(FlaskForm):
@@ -43,3 +44,33 @@ class EditProfileForm(FlaskForm):
             user = User.query.filter_by(username=self.username.data).first()
             if user is not None:
                 raise ValidationError('Please use a different username.')
+
+
+class AddRaceToDB(FlaskForm):
+    race_name = StringField('Race name', validators=[DataRequired()])
+    race_weight = IntegerField('Race weight', validators=[DataRequired(), NumberRange(0,100)])
+    race_monster = BooleanField('Monster', validators=[DataRequired()])
+    stat_bonus_2 = SelectField('Stat Bonus +2', choices=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA', '-1', '-2', '-3'])
+    stat_bonus_1 = SelectField('Stat Bonus +1', choices=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA', '-1', '-2', '-3'])
+    str_weight = IntegerField('STR weight', validators=[DataRequired(), NumberRange(0,100)])
+    con_weight = IntegerField('CON weight', validators=[DataRequired(), NumberRange(0,100)])
+    dex_weight = IntegerField('DEX weight', validators=[DataRequired(), NumberRange(0,100)])
+    int_weight = IntegerField('INT weight', validators=[DataRequired(), NumberRange(0,100)])
+    wis_weight = IntegerField('WIS weight', validators=[DataRequired(), NumberRange(0,100)])
+    cha_weight = IntegerField('CHA weight', validators=[DataRequired(), NumberRange(0,100)])
+
+
+class AddBackgroundToDB(FlaskForm):
+    back_name = StringField('Background name', validators=[DataRequired()])
+    race_name = SelectMultipleField('Races', validators=[DataRequired()], coerce=int)
+    back_weight = IntegerField('Background weight', validators=[DataRequired(), NumberRange(0, 100)])
+    back_stat = StringField('Background stat', validators=[DataRequired()])
+
+
+class AddClassToDB(FlaskForm):
+    class_name = StringField('Class name', validators=[DataRequired()])
+    preferred_stat = SelectField('First preferred stat', choices=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA'])
+    preferred_stat_2 = SelectField('Second preferred stat', chioces=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA'])
+    back_name = SelectMultipleField('Backgrounds', vlaidators=[DataRequired()], coerce=int)
+
+
