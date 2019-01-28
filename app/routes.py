@@ -93,3 +93,10 @@ def add_race():
         flash('The {} race has been added to the DB'.format(form.race_name.data))
         return redirect(url_for('index'))
     return render_template('add_race.html', title='Add Race', form=form)
+
+
+@app.route('/view_race')
+@login_required
+def view_race():
+    races = RaceStats.query.all()
+    return render_template('view_race.html', title='Current Races', races=races)

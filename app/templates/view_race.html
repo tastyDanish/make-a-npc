@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>View current races</h1>
+        <hr>
+        {% for race in races %}
+        <p>
+            {{ race.race_name }}<br>
+            {{ race.race_desc }}<br>
+            Stat Bonus +2: {{ race.stat_bonus_2 }}<br>
+            Stat Bonus +1: {{ race.stat_bonus_1 }}<br>
+            STR weight: {{ race.str_weight }}<br>
+            CON weight: {{ race.con_weight }}<br>
+            DEX weight: {{ race.dex_weight }}<br>
+            INT weight: {{ race.int_weight }}<br>
+            WIS weight: {{ race.wis_weight }}<br>
+            CHA weight: {{ race.cha_weight }}<br>
+        </p>
+        {% endfor %}
+
+{% endblock %}
