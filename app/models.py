@@ -39,8 +39,8 @@ class BackStats(db.Model):
     back_desc = db.Column(db.String(528))
     back_weight = db.Column(db.Integer, nullable=False)
     back_stat = db.Column(db.String(3), nullable=False)
-    back_skill_1 = db.Column(db.Integer, db.ForeignKey('Skills.skill_id'), nullable=False)
-    back_skill_2 = db.Column(db.Integer, db.ForeignKey('Skills.skill_id'), nullable=False)
+    back_skill_1 = db.Column(db.Integer, db.ForeignKey('Skills.skill_id'))
+    back_skill_2 = db.Column(db.Integer, db.ForeignKey('Skills.skill_id'))
 
     def __repr__(self):
         return '<Background {}>'.format(self.back_name)
