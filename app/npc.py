@@ -161,6 +161,7 @@ class NPC:
         :return: the background
         :rtype: str
         """
+        # TODO: SKIP IF NO BACKGROUND FOR RACE FOUND
         if background is not None:
             return background
         high_stat = self.get_highest_stat()
@@ -186,6 +187,7 @@ class NPC:
         :return:
         :rtype:
         """
+        # TODO: SKIP IF NO CLASS FOR RACE FOUND
         if pc_class is not None:
             return pc_class
         high_stat = self.get_highest_stat()
@@ -214,6 +216,7 @@ class NPC:
         :return:
         :rtype:
         """
+        # TODO: LOOK UP NUMBER OF SKILLS FROM DB
         skills = []
         skills = skills + _back_skills[self.background]
         if self.pc_class == 'Rogue':

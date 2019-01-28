@@ -12,6 +12,7 @@ from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'This-Is_The_Best-KEY'
 login = LoginManager(app)
 login.login_view = 'login'
 app.config.from_object(Config)

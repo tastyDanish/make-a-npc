@@ -48,29 +48,37 @@ class EditProfileForm(FlaskForm):
 
 class AddRaceToDB(FlaskForm):
     race_name = StringField('Race name', validators=[DataRequired()])
-    race_weight = IntegerField('Race weight', validators=[DataRequired(), NumberRange(0,100)])
+    race_desc = StringField('Race Description')
+    race_weight = IntegerField('Race weight', validators=[DataRequired(), NumberRange(0, 100)])
     race_monster = BooleanField('Monster', validators=[DataRequired()])
-    stat_bonus_2 = SelectField('Stat Bonus +2', choices=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA', '-1', '-2', '-3'])
-    stat_bonus_1 = SelectField('Stat Bonus +1', choices=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA', '-1', '-2', '-3'])
-    str_weight = IntegerField('STR weight', validators=[DataRequired(), NumberRange(0,100)])
-    con_weight = IntegerField('CON weight', validators=[DataRequired(), NumberRange(0,100)])
-    dex_weight = IntegerField('DEX weight', validators=[DataRequired(), NumberRange(0,100)])
-    int_weight = IntegerField('INT weight', validators=[DataRequired(), NumberRange(0,100)])
-    wis_weight = IntegerField('WIS weight', validators=[DataRequired(), NumberRange(0,100)])
-    cha_weight = IntegerField('CHA weight', validators=[DataRequired(), NumberRange(0,100)])
+    stat_bonus_2 = SelectField('Stat Bonus +2', choices=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA',
+                                                         ('-1', 'Choose 1'), ('-2', 'Choose 2'), ('-3', 'Choose 3)')])
+    stat_bonus_1 = SelectField('Stat Bonus +1', choices=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA',
+                                                         ('-1', 'Choose 1'), ('-2', 'Choose 2'), ('-3', 'Choose 3)')])
+    # str_weight = IntegerField('STR weight', validators=[DataRequired(), NumberRange(0,100)])
+    # con_weight = IntegerField('CON weight', validators=[DataRequired(), NumberRange(0,100)])
+    # dex_weight = IntegerField('DEX weight', validators=[DataRequired(), NumberRange(0,100)])
+    # int_weight = IntegerField('INT weight', validators=[DataRequired(), NumberRange(0,100)])
+    # wis_weight = IntegerField('WIS weight', validators=[DataRequired(), NumberRange(0,100)])
+    # cha_weight = IntegerField('CHA weight', validators=[DataRequired(), NumberRange(0,100)])
 
 
 class AddBackgroundToDB(FlaskForm):
-    back_name = StringField('Background name', validators=[DataRequired()])
-    race_name = SelectMultipleField('Races', validators=[DataRequired()], coerce=int)
-    back_weight = IntegerField('Background weight', validators=[DataRequired(), NumberRange(0, 100)])
-    back_stat = StringField('Background stat', validators=[DataRequired()])
+    back_name = StringField('Background Name', validators=[DataRequired()])
+    back_desc = StringField('Background Description')
+    # race_name = SelectMultipleField('Races', validators=[DataRequired()], coerce=int)
+    # back_weight = IntegerField('Background weight', validators=[DataRequired(), NumberRange(0, 100)])
+    back_stat = SelectField('Background Stat', validators=[DataRequired()],
+                            choices=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA'])
 
 
 class AddClassToDB(FlaskForm):
-    class_name = StringField('Class name', validators=[DataRequired()])
-    preferred_stat = SelectField('First preferred stat', choices=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA'])
-    preferred_stat_2 = SelectField('Second preferred stat', chioces=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA'])
+    class_name = StringField('Class Name', validators=[DataRequired()])
+    class_desc = StringField('Class Description')
+    preferred_stat = SelectField('First Preferred Stat', validators=[DataRequired()],
+                                 choices=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA'])
+    preferred_stat_2 = SelectField('Second Preferred Stat', validators=[DataRequired()],
+                                   chioces=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA'])
     back_name = SelectMultipleField('Backgrounds', vlaidators=[DataRequired()], coerce=int)
 
 

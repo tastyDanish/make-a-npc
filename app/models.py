@@ -12,6 +12,7 @@ class RaceStats(db.Model):
     __tablename__ = 'RaceStats'
     race_id = db.Column(db.Integer, primary_key=True)
     race_name = db.Column(db.String(20), nullable=False)
+    race_desc = db.Column(db.String(528))
     race_weight = db.Column(db.Integer, nullable=False)
     race_monster = db.Column(db.Boolean, nullable=False)
     stat_bonus_2 = db.Column(db.String(3))
@@ -35,8 +36,11 @@ class BackStats(db.Model):
     back_id = db.Column(db.Integer, primary_key=True)
     race_id = db.Column(db.Integer, db.ForeignKey('RaceStats.race_id'), nullable=False)
     back_name = db.Column(db.String(50), nullable=False)
+    back_desc = db.Column(db.String(528))
     back_weight = db.Column(db.Integer, nullable=False)
     back_stat = db.Column(db.String(3), nullable=False)
+    back_skill_1 = db.Column(db.Integer, db.ForeignKey('Skills.skill_id'), nullable=False)
+    back_skill_2 = db.Column(db.Integer, db.ForeignKey('Skills.skill_id'), nullable=False)
 
     def __repr__(self):
         return '<Background {}>'.format(self.back_name)
@@ -53,8 +57,10 @@ class ClassStats(db.Model):
     race_id = db.Column(db.Integer, db.ForeignKey('RaceStats.race_id'), nullable=False)
     back_id = db.Column(db.Integer, db.ForeignKey('BackStats.back_id'), nullable=False)
     class_name = db.Column(db.String(56), nullable=False, default='Peasant')
+    class_desc = db.Column(db.String(528))
     preferred_stat = db.Column(db.String(3))
     preferred_stat_2 = db.Column(db.String(3))
+    num_of_skills = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return '<Class {}>'.format(self.class_name)
