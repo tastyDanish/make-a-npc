@@ -46,24 +46,27 @@ class EditProfileForm(FlaskForm):
                 raise ValidationError('Please use a different username.')
 
 
-class AddRaceToDB(FlaskForm):
+class AddRaceForm(FlaskForm):
     race_name = StringField('Race name', validators=[DataRequired()])
     race_desc = StringField('Race Description')
-    race_weight = IntegerField('Race weight', validators=[DataRequired(), NumberRange(0, 100)])
-    race_monster = BooleanField('Monster', validators=[DataRequired()])
-    stat_bonus_2 = SelectField('Stat Bonus +2', choices=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA',
-                                                         ('-1', 'Choose 1'), ('-2', 'Choose 2'), ('-3', 'Choose 3)')])
-    stat_bonus_1 = SelectField('Stat Bonus +1', choices=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA',
-                                                         ('-1', 'Choose 1'), ('-2', 'Choose 2'), ('-3', 'Choose 3)')])
-    # str_weight = IntegerField('STR weight', validators=[DataRequired(), NumberRange(0,100)])
-    # con_weight = IntegerField('CON weight', validators=[DataRequired(), NumberRange(0,100)])
-    # dex_weight = IntegerField('DEX weight', validators=[DataRequired(), NumberRange(0,100)])
-    # int_weight = IntegerField('INT weight', validators=[DataRequired(), NumberRange(0,100)])
-    # wis_weight = IntegerField('WIS weight', validators=[DataRequired(), NumberRange(0,100)])
-    # cha_weight = IntegerField('CHA weight', validators=[DataRequired(), NumberRange(0,100)])
+    # race_weight = IntegerField('Race weight', validators=[DataRequired(), NumberRange(0, 100)])
+    race_monster = BooleanField('Monster')
+    stat_bonus_2 = SelectField('Stat Bonus +2', choices=[('STR', 'STR'), ('CON', 'CON'), ('DEX', 'DEX'),
+                                                         ('INT', 'INT'), ('WIS', 'WIS'), ('CHA', 'CHA'),
+                                                         ('-1', 'Choose 1'), ('-2', 'Choose 2'), ('-3', 'Choose 3')])
+    stat_bonus_1 = SelectField('Stat Bonus +1', choices=[('STR', 'STR'), ('CON', 'CON'), ('DEX', 'DEX'),
+                                                         ('INT', 'INT'), ('WIS', 'WIS'), ('CHA', 'CHA'),
+                                                         ('-1', 'Choose 1'), ('-2', 'Choose 2'), ('-3', 'Choose 3')])
+    str_weight = IntegerField('STR weight', validators=[DataRequired(), NumberRange(0, 100)], default=50)
+    con_weight = IntegerField('CON weight', validators=[DataRequired(), NumberRange(0, 100)], default=50)
+    dex_weight = IntegerField('DEX weight', validators=[DataRequired(), NumberRange(0, 100)], default=50)
+    int_weight = IntegerField('INT weight', validators=[DataRequired(), NumberRange(0, 100)], default=50)
+    wis_weight = IntegerField('WIS weight', validators=[DataRequired(), NumberRange(0, 100)], default=50)
+    cha_weight = IntegerField('CHA weight', validators=[DataRequired(), NumberRange(0, 100)], default=50)
+    submit = SubmitField('Submit')
 
 
-class AddBackgroundToDB(FlaskForm):
+class AddBackgroundForm(FlaskForm):
     back_name = StringField('Background Name', validators=[DataRequired()])
     back_desc = StringField('Background Description')
     # race_name = SelectMultipleField('Races', validators=[DataRequired()], coerce=int)
@@ -72,13 +75,15 @@ class AddBackgroundToDB(FlaskForm):
                             choices=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA'])
 
 
-class AddClassToDB(FlaskForm):
+class AddClassForm(FlaskForm):
     class_name = StringField('Class Name', validators=[DataRequired()])
     class_desc = StringField('Class Description')
     preferred_stat = SelectField('First Preferred Stat', validators=[DataRequired()],
-                                 choices=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA'])
+                                 choices=[('STR', 'STR'), ('CON', 'CON'), ('DEX', 'DEX'),
+                                          ('INT', 'INT'), ('WIS', 'WIS'), ('CHA', 'CHA')])
     preferred_stat_2 = SelectField('Second Preferred Stat', validators=[DataRequired()],
-                                   chioces=['STR', 'CON', 'DEX', 'INT', 'WIS', 'CHA'])
+                                   chioces=[('STR', 'STR'), ('CON', 'CON'), ('DEX', 'DEX'),
+                                          ('INT', 'INT'), ('WIS', 'WIS'), ('CHA', 'CHA')])
     back_name = SelectMultipleField('Backgrounds', vlaidators=[DataRequired()], coerce=int)
 
 

@@ -1,5 +1,83 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+    <h1>Add Race to database</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.race_name.label }}<br>
+            {{ form.race_name(size=32) }}<br>
+            {% for error in form.race_name.errors %}
+            <span style="color: red;">]{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.race_desc.label }}<br>
+            {{ form.race_desc(size=128) }}<br>
+        </p>
+        <p>
+            {{ form.race_monster.label }}
+            {{ form.race_monster() }}<br>
+            {% for error in form.race_monster.errors %}
+            <span style="color: red;">]{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.stat_bonus_2.label }}
+            {{ form.stat_bonus_2(size=9) }}<br>
+            {% for error in form.stat_bonus_2.errors %}
+            <span style="color: red;">]{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.stat_bonus_1.label }}
+            {{ form.stat_bonus_1(size=9) }}<br>
+            {% for error in form.stat_bonus_1.errors %}
+            <span style="color: red;">]{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.str_weight.label }}
+            {{ form.str_weight(size=10) }}<br>
+            {% for error in form.str_weight.errors %}
+            <span style="color: red;">]{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.con_weight.label }}
+            {{ form.con_weight(size=10) }}<br>
+            {% for error in form.con_weight.errors %}
+            <span style="color: red;">]{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.dex_weight.label }}
+            {{ form.dex_weight(size=10) }}<br>
+            {% for error in form.dex_weight.errors %}
+            <span style="color: red;">]{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.int_weight.label }}
+            {{ form.int_weight(size=10) }}<br>
+            {% for error in form.int_weight.errors %}
+            <span style="color: red;">]{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.wis_weight.label }}
+            {{ form.wis_weight(size=10) }}<br>
+            {% for error in form.wis_weight.errors %}
+            <span style="color: red;">]{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.cha_weight.label }}
+            {{ form.cha_weight(size=10) }}<br>
+            {% for error in form.cha_weight.errors %}
+            <span style="color: red;">]{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit }}</p>
+    </form>
 {% endblock %}

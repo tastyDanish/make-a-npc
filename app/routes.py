@@ -6,8 +6,9 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm
+from app.forms import LoginForm, RegistrationForm, AddRaceForm
 from app.user_models import User
+from app.models import RaceStats
 from datetime import datetime
 
 
@@ -69,3 +70,26 @@ def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
+
+
+@app.route('/add_race', methods=['GET', 'POST'])
+@login_required
+def add_race():
+    form = AddRaceForm()
+    if form.validate_on_submit():
+        r_config = RaceStats(race_name=form.race_name.data,
+                             race_desc=form.race_desc.data,
+                             race_monster=form.race_monster.data,
+                             stat_bonus_1=form.stat_bonus_1.data,
+                             stat_bonus_2=form.stat_bonus_2.data,
+                             str_weight=form.str_weight.data,
+                             con_weight=form.con_weight.data,
+                             dex_weight=form.dex_weight.data,
+                             int_weight=form.int_weight.data,
+                             wis_weight=form.wis_weight.data,
+                             cha_weight=form.cha_weight.data)
+        db.session.add(r_config)
+        db.session.commit()
+        flash('The {} race has been added to the DB'.format(form.race_name.data))
+        return redirect(url_for('index'))
+    return render_template('add_race.html', title='Add Race', form=form)
