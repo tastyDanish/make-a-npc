@@ -15,6 +15,14 @@
             INT weight: {{ race.int_weight }}<br>
             WIS weight: {{ race.wis_weight }}<br>
             CHA weight: {{ race.cha_weight }}<br>
+            <b>Backgrounds:</b><br>
+            {% for back in backs %}
+                {% if back.race_id == race.id %}
+                    {{ back.back_name }}<br>
+                {% endif %}
+            {% endfor %}
+            <a href="{{ url_for('add_background', race_id=race.id) }}">
+                Add Background</a>
         </p>
         {% endfor %}
 

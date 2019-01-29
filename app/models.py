@@ -10,7 +10,7 @@ class RaceStats(db.Model):
     A table to store the race stats and information
     """
     __tablename__ = 'RaceStats'
-    race_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     race_name = db.Column(db.String(20), nullable=False)
     race_desc = db.Column(db.String(528))
     race_weight = db.Column(db.Integer, nullable=False, default=50)
@@ -23,9 +23,16 @@ class RaceStats(db.Model):
     int_weight = db.Column(db.Integer, nullable=False, default=50)
     wis_weight = db.Column(db.Integer, nullable=False, default=50)
     cha_weight = db.Column(db.Integer, nullable=False, default=50)
+    backgrounds = db.relationship('BackStats', backref='Race', lazy='dynamic')
+    classes = db.relationship('ClassStats', backref='Race', lazy='dynamic')
 
     def __repr__(self):
         return '<Race {}>'.format(self.race_name)
+
+
+background_skills = db.Table('background_skills',
+                             db.Column('back_id', db.Integer, db.ForeignKey('BackStats.id'), primary_key=True),
+                             db.Column('skill_id', db.Integer, db.ForeignKey('Skills.id'), primary_key=True))
 
 
 class BackStats(db.Model):
@@ -33,17 +40,23 @@ class BackStats(db.Model):
     A table for background info
     """
     __tablename__ = 'BackStats'
-    back_id = db.Column(db.Integer, primary_key=True)
-    race_id = db.Column(db.Integer, db.ForeignKey('RaceStats.race_id'), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    race_id = db.Column(db.Integer, db.ForeignKey('RaceStats.id'))
     back_name = db.Column(db.String(50), nullable=False)
     back_desc = db.Column(db.String(528))
     back_weight = db.Column(db.Integer, nullable=False, default=50)
     back_stat = db.Column(db.String(3), nullable=False)
-    back_skill_1 = db.Column(db.Integer, db.ForeignKey('Skills.skill_id'))
-    back_skill_2 = db.Column(db.Integer, db.ForeignKey('Skills.skill_id'))
+    b_skills = db.relationship('Skills', secondary=background_skills, lazy='subquery',
+                               backref=db.backref('backgrounds', lazy=True))
+    classes = db.relationship('ClassStats', backref='Background', lazy='dynamic')
 
     def __repr__(self):
         return '<Background {}>'.format(self.back_name)
+
+
+class_skills = db.Table('class_skills',
+                        db.Column('class_id', db.Integer, db.ForeignKey('ClassStats.id'), primary_key=True),
+                        db.Column('skill_id', db.Integer, db.ForeignKey('Skills.id'), primary_key=True))
 
 
 class ClassStats(db.Model):
@@ -53,15 +66,17 @@ class ClassStats(db.Model):
     number of classes for monsters and NPCs
     """
     __tablename__ = 'ClassStats'
-    class_id = db.Column(db.Integer, primary_key=True)
-    race_id = db.Column(db.Integer, db.ForeignKey('RaceStats.race_id'), nullable=False)
-    back_id = db.Column(db.Integer, db.ForeignKey('BackStats.back_id'), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    race_id = db.Column(db.Integer, db.ForeignKey('RaceStats.id'))
+    back_id = db.Column(db.Integer, db.ForeignKey('BackStats.id'))
     class_name = db.Column(db.String(56), nullable=False, default='Peasant')
     class_desc = db.Column(db.String(528))
     class_weight = db.Column(db.Integer, nullable=False, default=50)
     preferred_stat = db.Column(db.String(3))
     preferred_stat_2 = db.Column(db.String(3))
     num_of_skills = db.Column(db.Integer, nullable=False)
+    skills = db.relationship('Skills', secondary=class_skills, lazy='subquery',
+                             backref=db.backref('Class', lazy=True))
 
     def __repr__(self):
         return '<Class {}>'.format(self.class_name)
@@ -72,19 +87,11 @@ class Skills(db.Model):
     A table for all of the skills
     """
     __tablename__ = 'Skills'
-    skill_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     skill_name = db.Column(db.String(56), nullable=False)
+    skill_desc = db.Column(db.String(528))
     skill_stat = db.Column(db.String(3), nullable=False)
 
     def __repr__(self):
         return '<Skill {}>'.format(self.skill_name)
 
-
-class ClassSkills(db.Model):
-    """
-    Intersection table for class and skills
-    """
-    __tablename__ = 'ClassSkills'
-    class_skill_id = db.Column(db.Integer, primary_key=True)
-    skill_id = db.Column(db.Integer, db.ForeignKey('Skills.skill_id'), nullable=False)
-    class_id = db.Column(db.Integer, db.ForeignKey('ClassStats.class_id'), nullable=False)

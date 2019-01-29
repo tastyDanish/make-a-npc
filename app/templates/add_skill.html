@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Add Skills to database</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.skill_name.label }}<br>
+            {{ form.skill_name(size=32) }}<br>
+            {% for error in form.skill_name.errors %}
+            <span style="color: red;"></span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.skill_desc.label }}<br>
+            {{ form.skill_desc(size=128) }}<br>
+        </p>
+        <p>
+            {{ form.skill_stat.label }}
+            {{ form.skill_stat(size=6) }}
+            {% for error in form.skill_name.errors %}
+            <span style="color: red;"></span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit }}</p>
+    </form>
+{% endblock %}

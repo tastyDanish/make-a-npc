@@ -1,10 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Add Background to database</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.back_name.label }}<br>
+            {{ form.back_name(size=32) }}<br>
+            {% for error in form.back_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.back_desc.label }}<br>
+            {{ form.back_desc(size=528) }}<br>
+        </p>
+        <p>
+            {{ form.back_weight.label }}
+            {{ form.back_weight(size=10) }}<br>
+            {% for error in form.back_weight.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.back_stat.label }}<br>
+            {{ form.back_stat(size=6) }}<br>
+            {% for error in form.back_stat.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.back_skill_1.label }}<br>
+            {{ form.back_skill_1(size=10) }}<br>
+            {% for error in form.back_skill_1.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.back_skill_2.label }}<br>
+            {{ form.back_skill_2(size=10) }}<br>
+            {% for error in form.back_skill_2.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit }}</p>
+    </form>
+{% endblock %}

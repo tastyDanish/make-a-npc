@@ -3,5 +3,7 @@
 {% block content %}
     <h1> Hi, {{ current_user.username }}!</h1>
     <a href="{{ url_for('add_race') }}">Add Race</a><br>
-    <a href="{{ url_for('view_race') }}">View Races</a>
+    <a href="{{ url_for('view_race') }}">View Races</a><br>
+    <a href="{{ url_for('add_skill') }}">Add Skill</a><br>
+    <a href="{{ url_for('view_skills') }}">View Skills</a>
 {% endblock %}

@@ -6,9 +6,9 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, AddRaceForm
+from app.forms import LoginForm, RegistrationForm, AddRaceForm, AddBackgroundForm, AddSkillForm
 from app.user_models import User
-from app.models import RaceStats
+from app.models import RaceStats, BackStats, Skills
 from datetime import datetime
 
 
@@ -99,4 +99,52 @@ def add_race():
 @login_required
 def view_race():
     races = RaceStats.query.all()
-    return render_template('view_race.html', title='Current Races', races=races)
+    backgrounds = BackStats.query.all()
+    return render_template('view_race.html', title='Current Races', races=races, backs=backgrounds)
+
+
+@app.route('/add_background/<race_id>', methods=['GET', 'POST'])
+@login_required
+def add_background(race_id):
+    form = AddBackgroundForm()
+    race = RaceStats.query.filter_by(id=race_id).first()
+    if form.validate_on_submit():
+        b_config = BackStats(race_id=race.id,
+                             back_name=form.back_name.data,
+                             back_desc=form.back_desc.data,
+                             back_weight=form.back_weight.data,
+                             back_stat=form.back_stat.data)
+
+        back_skill_1 = Skills.query.filter_by(id=form.back_skill_1.data).first()
+        back_skill_2 = Skills.query.filter_by(id=form.back_skill_2.data).first()
+        b_config.b_skills.append(back_skill_1)
+        b_config.b_skills.append(back_skill_2)
+
+        db.session.add(b_config)
+        db.session.commit()
+        flash('The {} background has been added to the {} race'.format(form.back_name.data, race.race_name))
+        return redirect(url_for('view_race'))
+    return render_template('add_background.html', title='Add Background to {}'.format(race.race_name), race_id=race_id,
+                           form=form)
+
+
+@app.route('/add_skill', methods=['GET', 'POST'])
+@login_required
+def add_skill():
+    form = AddSkillForm()
+    if form.validate_on_submit():
+        s_config = Skills(skill_name=form.skill_name.data,
+                          skill_desc=form.skill_desc.data,
+                          skill_stat=form.skill_stat.data)
+        db.session.add(s_config)
+        db.session.commit()
+        flash('The {} skill has been added to the DB'.format(form.skill_name.data))
+        return redirect(url_for('index'))
+    return render_template('add_skill.html', title='Add Skill', form=form)
+
+
+@app.route('/view_skills')
+@login_required
+def view_skills():
+    skills = Skills.query.all()
+    return render_template('view_skills.html', title='View Skills', skills=skills)
